@@ -42,10 +42,14 @@ This project has been containerized using Docker. Follow these steps:
 
 ![architechture](app-architecture.png)
 
-### Troubleshooting :
-When creating this app, I encoutred some problems 
+### Troubleshooting
 
-    - **Backend and Mongodb running at the same time :** when running docker-compose, the backend container and mongo container start at the same time, which may cause problems because the backend connects to the databse before it completly started .
-        **Solution :** I used depends on with _condition : service_healthy_, so that the backend doesn't start until the database has completely started.
-    - **Fetch failed from the Frontend :** the fetch failed when trying to send request from frontend to backend because the nodejs server didn't allow requests from different domains/ports/protocol.
-        **Solution :** using CORS (Cross-Origin Resource Sharing) in the server.
+During the development of this app, I encountered a few issues:
+
+- **Backend and MongoDB starting simultaneously**:  
+  When running `docker-compose`, the backend and MongoDB containers start at the same time. This can lead to connection errors, as the backend may try to connect to the database before it's fully ready.  
+  **Solution**: I used `depends_on` with `condition: service_healthy` in `docker-compose.yaml` to make sure the backend starts **only after** MongoDB is healthy.
+
+- **Fetch failed from the frontend**:  
+  The frontend failed to fetch data from the backend due to browser security policies that block requests across different origins (domain/port/protocol).  
+  **Solution**: I enabled **CORS (Cross-Origin Resource Sharing)** in the Node.js backend to allow cross-origin requests.
