@@ -44,6 +44,7 @@ This project has been containerized using Docker. Follow these steps:
 
 ### Troubleshooting :
 When creating this app, I encoutred some problems 
+
     - **Backend and Mongodb running at the same time :** when running docker-compose, the backend container and mongo container start at the same time, which may cause problems because the backend connects to the databse before it completly started .
         **Solution :** I used depends on with _condition : service_healthy_, so that the backend doesn't start until the database has completely started.
     - **Fetch failed from the Frontend :** the fetch failed when trying to send request from frontend to backend because the nodejs server didn't allow requests from different domains/ports/protocol.
